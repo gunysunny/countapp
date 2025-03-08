@@ -23,7 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
         _counter++;
       });
     },
-    shakeThresholdGravity: 1.5,
+    shakeThresholdGravity: 1,
     );
     super.initState();
   }
