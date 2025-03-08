@@ -13,20 +13,29 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver{
   int _counter = 0;
 
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: (){
       setState(() {
         _counter++;
       });
     },
-    shakeThresholdGravity: 1,
+    shakeThresholdGravity: 1.5,
     );
     super.initState();
   }
+
+@override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+
   void _incrementCounter() {
     setState(() {
       _counter++;
@@ -66,4 +75,22 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  //   switch(state){
+  //
+  //     case AppLifecycleState.resumed:
+  //       break;
+  //     case AppLifecycleState.inactive:
+  //       break;
+  //     case AppLifecycleState.paused:
+  //
+  //       break;
+  //     case AppLifecycleState.detached:
+  //       break;
+  //     case AppLifecycleState.hidden:
+  //       break;
+  //   }
+  // }
 }
