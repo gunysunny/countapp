@@ -15,11 +15,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver{
   int _counter = 0;
+  late ShakeDetector detector;
 
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
-    ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: (){
+    detector = ShakeDetector.autoStart(onPhoneShake: (){
       setState(() {
         _counter++;
       });
@@ -76,21 +77,21 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver{
     );
   }
 
-  // @override
-  // void didChangeAppLifecycleState(AppLifecycleState state) {
-  //   switch(state){
-  //
-  //     case AppLifecycleState.resumed:
-  //       break;
-  //     case AppLifecycleState.inactive:
-  //       break;
-  //     case AppLifecycleState.paused:
-  //
-  //       break;
-  //     case AppLifecycleState.detached:
-  //       break;
-  //     case AppLifecycleState.hidden:
-  //       break;
-  //   }
-  // }
+  @override
+    void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch(state){
+      case AppLifecycleState.resumed:
+        detector.startListening();
+        break;
+      case AppLifecycleState.inactive:
+        break;
+      case AppLifecycleState.paused:
+        detector.stopListening();
+        break;
+      case AppLifecycleState.detached:
+        break;
+      case AppLifecycleState.hidden:
+        break;
+    }
+  }
 }
